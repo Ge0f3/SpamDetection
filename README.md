@@ -1,5 +1,6 @@
-# Data Science Web Application SpamDetection
-This is a Repository which Contains the implementation of ML model for spam detection 
+# Data Science Web Application SpamDetection 
+
+This is a Repository which Contains the implementation of ML model for spam detection  [![Build Status](https://travis-ci.com/Ge0f3/SpamDetection.svg?branch=master)](https://travis-ci.com/Ge0f3/SpamDetection)
 # Live Demo 
 The implementation of the web app can be found https://spamdetect.herokuapp.com/ <-- **here !**
 # Deploy the app 
