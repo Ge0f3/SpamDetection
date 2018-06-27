@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Spam Detection</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <style type="text/css">
+        .col-centered {
+            float: none !important;
+            margin: 0 auto;
+        }
+        .center{
+        	padding-left: 0em;
+        }
+        nav{
+        	background-color: #00b0ff !important;
+        }
+        .btn{
+        	background-color: #007bff !important;
+        	border-color: #007bff !important;
+        }
+    </style>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Spam Detection</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col lg12 m7 s12 col-centered">
+
+                <h2 class="header center" >Spam or HAM ? </h2>
+                <div class="card horizontal">
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <p>I am a simple ML model. I am here to predict wheather an mail is spam or not lets check it out !.</p>
+                        </div>
+                        <form method="post" action="/api" id="predict_form">
+                        	<div class="input-field col s12">
+                            <input placeholder="Type the Email to check" id="email" name="email" type="text" class="validate">
+                            <label for="first_name">Email !</label>
+                        </form>
+                        </div>
+
+                        <div class="card-action">
+                            <button class="btn btn-primary waves-effect waves-light  " type="submit" name="action" id="predict">Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+		$(function () {
+	        $("button#predict").click(function(e){
+	        	e.preventDefault();
+	        	/*Get for variabes*/
+	        	var productname = $("#email").val();
+	        	/*create the JSON object*/
+	        	if($('#email').val().length==0){
+	        		swal("Input length is less to predict !")
+	        	}
+	        	else{
+	        		var data = [productname]
+	        	/*send the ajax request*/
+	        	$.ajax({
+	        		method : "POST",
+	        		url : window.location.href + 'api',
+	        		data : $('form').serialize(),
+	        		success : function(result){
+	        			var json_result = JSON.parse(result);
+	        			var price = json_result['result'];
+	        			swal('The email is  '+price)
+	        		},
+	        		error : function(){
+	        			console.log("error")
+	        		}
+	        	})
+
+	        	}
+	        		        })
+	    
+		});
+	</script>
+</body>
+
+</html>
