@@ -8,6 +8,8 @@ python:
 #install dependencies
 install: pip install -r requirements.txt
 
+before_script: python main.py
+
 # command to install dependencies
 script: python tests.py
 
