@@ -22,18 +22,24 @@ def index():
 @app.route('/api', methods=['POST'])
 def get_delay():
     result=request.form
-
     productname = result['email']
     # we create a json object that will hold data from user inputs
     product = [productname]
     x_count = ser_countvect.transform(product)
     # encode the json object to one hot encoding so that it could fit our model
-    # get the price prediction
+    # get the  prediction
     res = my_predict.predict(x_count)
-    #output = res[0]
     # return a json value
     app.logger.info("The type of the producname is {}".format(res))
     return json.dumps({'result':res[0]});
+
+@app.route('/test',methods=['post'])
+def predict():
+    word = request.get_json(force=True)
+    x_count = ser_countvect.transform(word)
+    res = my_predict.predict(x_count)
+    output = res[0]
+    return jsonify(results=output)
 
 if __name__ == '__main__':
     app.debug = True
