@@ -6,10 +6,15 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 
+    <!-- animate.css cdn  -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.24.2/sweetalert2.all.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
@@ -72,7 +77,9 @@
 	        	var productname = $("#email").val();
 	        	/*create the JSON object*/
 	        	if($('#email').val().length==0){
-	        		swal("Input length is less to predict !")
+	        		swal(" ",
+                        "Input length is less to predict !",
+                        'warning')
 	        	}
 	        	else{
 	        		var data = [productname]
@@ -84,7 +91,19 @@
 	        		success : function(result){
 	        			var json_result = JSON.parse(result);
 	        			var price = json_result['result'];
-	        			swal('The email is  '+price)
+                        if(price=='ham'){
+                            swal(price,
+                            'The email is  '+price,
+                            'success'
+                            )
+                        }
+                        else{
+                            swal(price,
+                            'The email is  '+price,
+                            'error'
+                            )
+                        }
+	        			
 	        		},
 	        		error : function(){
 	        			console.log("error")
