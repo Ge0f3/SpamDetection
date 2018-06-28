@@ -2,16 +2,12 @@ import numpy as np
 from flask import jsonify,abort,request,Flask
 from flask import Flask, render_template, request
 import pickle
-import json
-import os
+import json,os
 
 
 my_predict = pickle.load(open('model_file','rb'))
 ser_countvect =pickle.load(open('countvect','rb'))
 
-#using joblib
-# my_predict = joblib.load('model.pkl')
-# ser_countvect=joblib.load('countvect.pkl')
 
 app=Flask(__name__)
 
@@ -20,7 +16,7 @@ def index():
 	return render_template('index.html')
 
 @app.route('/api', methods=['POST'])
-def get_delay():
+def model():
     result=request.form
     productname = result['email']
     # we create a json object that will hold data from user inputs
