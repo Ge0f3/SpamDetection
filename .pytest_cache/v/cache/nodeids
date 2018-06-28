@@ -1,0 +1,5 @@
+[
+  "tests.py::TestMethods::test1",
+  "tests.py::TestMethods::test2",
+  "tests.py::TestMethods::test3"
+]

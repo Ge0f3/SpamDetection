@@ -1,7 +1,7 @@
 import numpy as np 
 from flask import jsonify,abort,request,Flask
 from flask import Flask, render_template, request
-import pickle,joblib
+import pickle
 import json
 import os
 
