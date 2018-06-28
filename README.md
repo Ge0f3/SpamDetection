@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Ge0f3/SpamDetection.svg?branch=master)](https://travis-ci.com/Ge0f3/SpamDetection) [![codecov](https://codecov.io/gh/Ge0f3/SpamDetection/branch/master/graph/badge.svg)](https://codecov.io/gh/Ge0f3/SpamDetection)
+[![Build Status](https://travis-ci.com/Ge0f3/SpamDetection.svg?branch=master)](https://travis-ci.com/Ge0f3/SpamDetection) [![codecov](https://codecov.io/gh/Ge0f3/SpamDetection/branch/master/graph/badge.svg)](https://codecov.io/gh/Ge0f3/SpamDetection) [![HitCount](http://hits.dwyl.io/Ge0f3/Ge0f3/SpamDetection.svg)](http://hits.dwyl.io/Ge0f3/Ge0f3/SpamDetection)
 # Data Science Web Application SpamDetection 
 
 This is a Repository which Contains the implementation of ML model for spam detection 
