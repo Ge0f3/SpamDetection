@@ -3,10 +3,6 @@
   margin: 0 auto;
 }
 
-body{
-    background-color: pink;
-}
-
 .center {
   padding-left: 0em;
 }
@@ -20,9 +16,6 @@ nav {
   border-color: #007bff !important;
 }
 
-.card {
-  min-height: 500px;
-}
 
 textarea{
     min-height: 6rem !important;
