@@ -15,6 +15,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/card')
+def card():
+    return render_template('card.html')
 
 @app.route('/api', methods=['POST'])
 def model():

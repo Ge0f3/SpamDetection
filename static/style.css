@@ -20,3 +20,8 @@ nav {
 textarea{
     min-height: 6rem !important;
 }
+
+a.active{
+    background-color: transparent;
+    color: #00b0ff !important;
+}
