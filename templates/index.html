@@ -1,96 +1,74 @@
 <!DOCTYPE html>
 <html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<head>
-    <title>Spam Detection</title>
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-
-    <!-- animate.css cdn  -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.24.2/sweetalert2.all.js"></script>
-    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-
-<body>
-    <style type="text/css">
-        .col-centered {
-            float: none !important;
-            margin: 0 auto;
-        }
-        .center{
-        	padding-left: 0em;
-        }
-        nav{
-        	background-color: #00b0ff !important;
-        }
-        .btn{
-        	background-color: #007bff !important;
-        	border-color: #007bff !important;
-        }
-    </style>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">Spam Detection</a>
-            <ul id="nav-mobile" class="left hide-on-med-and-down">
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="row">
-            <div class="col lg12 m7 s12 col-centered">
-
-                <h2 class="header center" >Spam or HAM ? </h2>
-                <div class="card horizontal">
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>I am a simple ML model. I am here to predict wheather an mail is spam or not lets check it out !.</p>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <head>
+            <title>Spam Detection</title>
+            <!-- Compiled and minified CSS -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+                <!-- static files css !! -->
+                <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+                    <!-- animate.css cdn  -->
+                    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+                        <!-- Compiled and minified JavaScript -->
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.24.2/sweetalert2.all.js"></script>
+                        <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+                        <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    </head>
+                    <body>
+                        <nav>
+                            <div class="nav-wrapper">
+                                <a href="#" class="brand-logo center">Spam Detection</a>
+                                <ul id="nav-mobile" class="left hide-on-med-and-down"></ul>
+                            </div>
+                        </nav>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col lg12 m7 s12 col-centered">
+                                    <h2 class="header center" >Spam or HAM ? </h2>
+                                    <div class="card  darken-1">
+                                        <div class="card-content ">
+                                            <p align="center">I am a simple ML model. I am here to predict wheather an mail is spam or not lets check it out !.</p><br>
+                                            <span class="card-title">Check it out !!</span>
+                                            <!--  <p>Paste the email below in the Text Box.</p> -->
+                                            <form method="post" action="/api" id="predict_form">
+                                                <label for="email">Email !</label>
+                                                <!-- <input placeholder="Paste the email " id="email" name="email" type="text" class="validate"> -->
+                                                <textarea class="form-control "  style="min-height: 6em;" id="email" name="email" rows="20"></textarea>
+                                            </form>
+                                        </div>
+                                        <div class="card-action">
+                                            <button class="btn btn-primary waves-effect waves-light  " type="submit" name="action" id="predict">Submit
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <form method="post" action="/api" id="predict_form">
-                        	<div class="input-field col s12">
-                            <input placeholder="Type the Email to check" id="email" name="email" type="text" class="validate">
-                            <label for="first_name">Email !</label>
-                        </form>
-                        </div>
-
-                        <div class="card-action">
-                            <button class="btn btn-primary waves-effect waves-light  " type="submit" name="action" id="predict">Submit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-		$(function () {
-	        $("button#predict").click(function(e){
-	        	e.preventDefault();
-	        	/*Get for variabes*/
-	        	var productname = $("#email").val();
-	        	/*create the JSON object*/
-	        	if($('#email').val().length==0){
-	        		swal(" ",
+                        <script type="text/javascript">
+        $(function () {
+            $("button#predict").click(function(e){
+                e.preventDefault();
+                /*Get for variabes*/
+                var productname = $("#email").val();
+                /*create the JSON object*/
+                if($('#email').val().length==0){
+                    swal(" ",
                         "Input length is less to predict !",
                         'warning')
-	        	}
-	        	else{
-	        		var data = [productname]
-	        	/*send the ajax request*/
-	        	$.ajax({
-	        		method : "POST",
-	        		url : window.location.href + 'api',
-	        		data : $('form').serialize(),
-	        		success : function(result){
-	        			var json_result = JSON.parse(result);
-	        			var price = json_result['result'];
+                }
+                else{
+                    var data = [productname]
+                /*send the ajax request*/
+                $.ajax({
+                    method : "POST",
+                    url : window.location.href + 'api',
+                    data : $('form').serialize(),
+                    success : function(result){
+                        var json_result = JSON.parse(result);
+                        var price = json_result['result'];
                         if(price=='ham'){
                             swal(price,
                             'The email is  '+price,
@@ -103,18 +81,17 @@
                             'error'
                             )
                         }
-	        			
-	        		},
-	        		error : function(){
-	        			console.log("error")
-	        		}
-	        	})
+                        
+                    },
+                    error : function(){
+                        console.log("error")
+                    }
+                })
 
-	        	}
-	        		        })
-	    
-		});
-	</script>
-</body>
-
-</html>
+                }
+                            })
+        
+        });
+    </script>
+                    </body>
+                </html>
