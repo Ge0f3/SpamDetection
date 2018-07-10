@@ -78,20 +78,24 @@ def upload():
             filename = secure_filename(file.filename)
             df = pd.read_csv(file,encoding='latin-1')
             print(df.head())
-            # x_trans=ser_countvect.transform(df.v2)
-            # predicted_values = myPredict.predict(x_trans)
-            # value,counts = np.unique(predicted_values,return_counts=True)
-            # legend ='HAM VS SPAM'
-            # labels=[value[0],value[1]]
-            # values=[counts[0],counts[1]]
-            # print("The labels are {}\nThe counts are {}".format(labels,values))
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            #print(values,counts)
-            
-            #return redirect(url_for('home'))
+            try:
+                x_trans=ser_countvect.transform(df.v2)
+                predicted_values = myPredict.predict(x_trans)
+                value,counts = np.unique(predicted_values,return_counts=True)
+                legend ='HAM VS SPAM'
+                labels=[value[0],value[1]]
+                values=[counts[0],counts[1]]
+                print("The labels are {}\nThe counts are {}".format(labels,values))
+                return render_template('chart.html', values=values, labels=labels, legend=legend)
+            except AttributeError as error:
+                #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return redirect(url_for('index'))
+            else:
+                return redirect(url_for('index'))
+            # return redirect(url_for('home'))
     #return render_template('chart.html', values=values, labels=labels, legend=legend)
-    return redirect(url_for('index'))
-    #return render(url_for('chart', values=values, labels=labels, legend=legend))
+    # return redirect(url_for('index'))
+    return render(url_for('chart', values=values, labels=labels, legend=legend))
 
 
 
