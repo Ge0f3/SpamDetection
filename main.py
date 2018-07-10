@@ -3,21 +3,32 @@
 import os
 import pickle
 import json
-from flask import jsonify , request, Flask, render_template
+import pandas as pd
+import numpy as np 
+from flask import jsonify , request, Flask, render_template,redirect,url_for
+from werkzeug.utils import secure_filename
+from werkzeug import SharedDataMiddleware
 
 myPredict = pickle.load(open('model_file', 'rb'))
 ser_countvect = pickle.load(open('countvect', 'rb'))
 
+UPLOAD_FOLDER = '/Users/geofe/Documents/workspace/Projects/Spam_filtering/webapp/uploads'
+ALLOWED_EXTENSIONS = set(['csv', 'pdf', 'json', 'txt', 'jpeg', 'gif','py'])
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.add_url_rule('/uploads/<filename>', 'uploaded_file',
+                 build_only=True)
+app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
+    '/uploads':  app.config['UPLOAD_FOLDER']
+})
+
+
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/card')
-def card():
-    return render_template('card.html')
 
 @app.route('/api', methods=['POST'])
 def model():
@@ -47,6 +58,40 @@ def predict():
     res = myPredict.predict(x_count)
     output = res[0]
     return jsonify(results=output)
+
+@app.route('/chart')
+def chart():
+    legend = 'Monthly Data'
+    labels = ["Bogus", "Real"]
+    values = [20, 80]
+    return render_template('chart.html', values=values, labels=labels, legend=legend)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            df = pd.read_csv(file,encoding='latin-1')
+            x_trans=ser_countvect.transform(df.v2)
+            predicted_values = myPredict.predict(x_trans)
+            value,counts = np.unique(predicted_values,return_counts=True)
+            legend ='HAM VS SPAM'
+            labels=[value[0],value[1]]
+            values=[counts[0],counts[1]]
+            print("The labels are {}\nThe counts are {}".format(labels,values))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #print(values,counts)
+            
+            #return redirect(url_for('home'))
+    return render_template('chart.html', values=values, labels=labels, legend=legend)
+    #return render(url_for('chart', values=values, labels=labels, legend=legend))
+
+
 
 if __name__ == '__main__':
     app.debug = True
