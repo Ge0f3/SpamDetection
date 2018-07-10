@@ -76,7 +76,8 @@ def upload():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            #df = pd.read_csv(file,encoding='latin-1')
+            df = pd.read_csv(file,encoding='latin-1')
+            print(df.head())
             # x_trans=ser_countvect.transform(df.v2)
             # predicted_values = myPredict.predict(x_trans)
             # value,counts = np.unique(predicted_values,return_counts=True)
@@ -84,7 +85,7 @@ def upload():
             # labels=[value[0],value[1]]
             # values=[counts[0],counts[1]]
             # print("The labels are {}\nThe counts are {}".format(labels,values))
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #print(values,counts)
             
             #return redirect(url_for('home'))
