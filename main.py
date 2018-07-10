@@ -5,7 +5,7 @@ import pickle
 import json
 import pandas as pd
 import numpy as np 
-from flask import jsonify , request, Flask, render_template,redirect,url_for
+from flask import jsonify , request, Flask, render_template,redirect,url_for,send_file
 from werkzeug.utils import secure_filename
 from werkzeug import SharedDataMiddleware
 
@@ -58,6 +58,13 @@ def predict():
     res = myPredict.predict(x_count)
     output = res[0]
     return jsonify(results=output)
+
+@app.route('/test-file')
+def download():
+    try:
+        return send_file('./Model/spam.csv',attachment_filename='spam.csv')
+    except Exception as e:
+        return str(e)
 
 @app.route('/chart')
 def chart():
