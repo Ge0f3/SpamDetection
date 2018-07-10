@@ -13,7 +13,7 @@ myPredict = pickle.load(open('model_file', 'rb'))
 ser_countvect = pickle.load(open('countvect', 'rb'))
 
 UPLOAD_FOLDER = '/Users/geofe/Documents/workspace/Projects/Spam_filtering/webapp/uploads'
-ALLOWED_EXTENSIONS = set(['csv', 'pdf', 'json', 'txt', 'jpeg', 'gif','py'])
+ALLOWED_EXTENSIONS = set(['csv', 'pdf', 'json', 'txt'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -76,19 +76,20 @@ def upload():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            df = pd.read_csv(file,encoding='latin-1')
-            x_trans=ser_countvect.transform(df.v2)
-            predicted_values = myPredict.predict(x_trans)
-            value,counts = np.unique(predicted_values,return_counts=True)
-            legend ='HAM VS SPAM'
-            labels=[value[0],value[1]]
-            values=[counts[0],counts[1]]
-            print("The labels are {}\nThe counts are {}".format(labels,values))
+            #df = pd.read_csv(file,encoding='latin-1')
+            # x_trans=ser_countvect.transform(df.v2)
+            # predicted_values = myPredict.predict(x_trans)
+            # value,counts = np.unique(predicted_values,return_counts=True)
+            # legend ='HAM VS SPAM'
+            # labels=[value[0],value[1]]
+            # values=[counts[0],counts[1]]
+            # print("The labels are {}\nThe counts are {}".format(labels,values))
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #print(values,counts)
             
             #return redirect(url_for('home'))
-    return render_template('chart.html', values=values, labels=labels, legend=legend)
+    #return render_template('chart.html', values=values, labels=labels, legend=legend)
+    return redirect(url_for('index'))
     #return render(url_for('chart', values=values, labels=labels, legend=legend))
 
 
