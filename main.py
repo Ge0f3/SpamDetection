@@ -23,9 +23,6 @@ app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
     '/uploads':  app.config['UPLOAD_FOLDER']
 })
 
-
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -95,7 +92,7 @@ def upload():
                 print("The labels are {}\nThe counts are {}".format(labels,values))
                 return render_template('chart.html', values=values, labels=labels, legend=legend)
             except AttributeError as error:
-                #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 return redirect(url_for('index'))
             else:
                 return redirect(url_for('index'))
