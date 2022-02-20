@@ -16,6 +16,7 @@ UPLOAD_FOLDER = '/Users/geofe/Documents/workspace/Projects/Spam_filtering/webapp
 ALLOWED_EXTENSIONS = set(['csv', 'pdf', 'json', 'txt'])
 
 app = Flask(__name__)
+app.config['WTF_CSRF_ENABLED'] = True # Sensitive
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.add_url_rule('/uploads/<filename>', 'uploaded_file',
                  build_only=True)
@@ -74,7 +75,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route("/upload", methods=['GET', 'POST'])
+@app.route("/upload")
 def upload():
     if request.method == 'POST':
         file = request.files['file']
