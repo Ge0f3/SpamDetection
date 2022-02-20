@@ -8,6 +8,7 @@ import numpy as np
 from flask import jsonify , request, Flask, render_template,redirect,url_for,send_file
 from werkzeug.utils import secure_filename
 from werkzeug import SharedDataMiddleware
+from flask_wtf.csrf import CSRFProtect
 
 myPredict = pickle.load(open('model_file', 'rb'))
 ser_countvect = pickle.load(open('countvect', 'rb'))
@@ -16,7 +17,9 @@ UPLOAD_FOLDER = '/Users/geofe/Documents/workspace/Projects/Spam_filtering/webapp
 ALLOWED_EXTENSIONS = set(['csv', 'pdf', 'json', 'txt'])
 
 app = Flask(__name__)
-app.config['WTF_CSRF_ENABLED'] = True # Sensitive
+app.config['WTF_CSRF_ENABLED'] = False # Sensitive
+csrf = CSRFProtect()
+csrf.init_app(app) # Compliant
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.add_url_rule('/uploads/<filename>', 'uploaded_file',
                  build_only=True)
